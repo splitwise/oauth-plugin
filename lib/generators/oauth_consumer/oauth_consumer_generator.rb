@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails/generators/migration'
 require 'rails/generators/active_record'
 
 class OauthConsumerGenerator < Rails::Generators::Base
-  source_root File.expand_path("../templates", __FILE__)
+  source_root File.expand_path('templates', __dir__)
 
   hook_for :orm
 
   def copy_models
-    template 'oauth_config.rb',   File.join('config', 'initializers', 'oauth_consumers.rb')
+    template 'oauth_config.rb', File.join('config', 'initializers', 'oauth_consumers.rb')
   end
 
   def copy_controller
@@ -17,15 +19,14 @@ class OauthConsumerGenerator < Rails::Generators::Base
   hook_for :template_engine
 
   def add_route
-    route <<-ROUTE.strip
-resources :oauth_consumers do
-    member do
-      get :callback
-      get :callback2
-      match 'client/*endpoint' => 'oauth_consumers#client', :via => [:get, :post, :put, :delete]
-    end
+    route <<~ROUTE.strip
+      resources :oauth_consumers do
+          member do
+            get :callback
+            get :callback2
+            match 'client/*endpoint' => 'oauth_consumers#client', :via => [:get, :post, :put, :delete]
+          end
+        end
+    ROUTE
   end
-ROUTE
-  end
-
 end

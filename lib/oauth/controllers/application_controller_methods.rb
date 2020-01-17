@@ -1,8 +1,8 @@
+# frozen_string_literal: true
+
 module OAuth
   module Controllers
-
     module ApplicationControllerMethods
-
       def self.included(controller)
         controller.class_eval do
           extend ClassMethods
@@ -10,7 +10,7 @@ module OAuth
       end
 
       module ClassMethods
-        def oauthenticate(options={})
+        def oauthenticate(options = {})
           filter_options = {}
           filter_options[:only]   = options.delete(:only) if options[:only]
           filter_options[:except] = options.delete(:except) if options[:except]
@@ -19,23 +19,23 @@ module OAuth
       end
 
       class Filter
-        def initialize(options={})
-          @options={
-              :interactive=>true,
-              :strategies => [:token,:two_legged]
-            }.merge(options)
+        def initialize(options = {})
+          @options = {
+            interactive: true,
+            strategies: %i[token two_legged]
+          }.merge(options)
           @strategies = Array(@options[:strategies])
           @strategies << :interactive if @options[:interactive]
         end
 
         def before(controller)
-          Authenticator.new(controller,@strategies).allow?
+          Authenticator.new(controller, @strategies).allow?
         end
       end
 
       class Authenticator
         attr_accessor :controller, :strategies, :strategy
-        def initialize(controller,strategies)
+        def initialize(controller, strategies)
           @controller = controller
           @strategies = strategies
         end
@@ -43,7 +43,7 @@ module OAuth
         def allow?
           if @strategies.include?(:interactive) && interactive
             true
-          elsif !(@strategies & env["oauth.strategies"].to_a).empty?
+          elsif !(@strategies & env['oauth.strategies'].to_a).empty?
             if token.present?
               @controller.send :current_user=, token.user
               true
@@ -60,19 +60,19 @@ module OAuth
         end
 
         def oauth20_token
-           env["oauth.version"]==2 && env["oauth.token"]
+          env['oauth.version'] == 2 && env['oauth.token']
         end
 
         def oauth10_token
-          env["oauth.version"]==1 && env["oauth.token"]
+          env['oauth.version'] == 1 && env['oauth.token']
         end
 
         def oauth10_request_token
-          oauth10_token && oauth10_token.is_a?(::RequestToken) ? oauth10_token : nil
+          oauth10_token&.is_a?(::RequestToken) ? oauth10_token : nil
         end
 
         def oauth10_access_token
-          oauth10_token && oauth10_token.is_a?(::AccessToken) ? oauth10_token : nil
+          oauth10_token&.is_a?(::AccessToken) ? oauth10_token : nil
         end
 
         def token
@@ -80,11 +80,11 @@ module OAuth
         end
 
         def client_application
-          env["oauth.version"]==1 && env["oauth.client_application"] || oauth20_token.try(:client_application)
+          env['oauth.version'] == 1 && env['oauth.client_application'] || oauth20_token.try(:client_application)
         end
 
         def two_legged
-           env["oauth.version"]==1 && client_application
+          env['oauth.version'] == 1 && client_application
         end
 
         def interactive
@@ -98,17 +98,16 @@ module OAuth
         def request
           controller.send :request
         end
-
       end
 
       protected
 
       def current_token
-        request.env["oauth.token"]
+        request.env['oauth.token']
       end
 
       def current_client_application
-        request.env["oauth.version"]==1 && request.env["oauth.client_application"] || current_token.try(:client_application)
+        request.env['oauth.version'] == 1 && request.env['oauth.client_application'] || current_token.try(:client_application)
       end
 
       def oauth?
@@ -117,16 +116,16 @@ module OAuth
 
       # use in a before_filter. Note this is for compatibility purposes. Better to use oauthenticate now
       def oauth_required
-        Authenticator.new(self,[:oauth10_access_token]).allow?
+        Authenticator.new(self, [:oauth10_access_token]).allow?
       end
 
       # use in before_filter. Note this is for compatibility purposes. Better to use oauthenticate now
       def login_or_oauth_required
-        Authenticator.new(self,[:oauth10_access_token,:interactive]).allow?
+        Authenticator.new(self, %i[oauth10_access_token interactive]).allow?
       end
 
-      def invalid_oauth_response(code=401,message="Invalid OAuth Request")
-        render :text => message, :status => code
+      def invalid_oauth_response(code = 401, message = 'Invalid OAuth Request')
+        render text: message, status: code
         false
       end
 
@@ -134,7 +133,6 @@ module OAuth
       def access_denied
         head 401
       end
-
     end
   end
 end

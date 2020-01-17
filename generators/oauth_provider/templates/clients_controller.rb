@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class OauthClientsController < ApplicationController
   before_filter :login_required
-  before_filter :get_client_application, :only => [:show, :edit, :update, :destroy]
+  before_filter :get_client_application, only: %i[show edit update destroy]
 
   def index
     @client_applications = current_user.client_applications
-    @tokens = current_user.tokens.find :all, :conditions => 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
+    @tokens = current_user.tokens.find :all, conditions: 'oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null'
   end
 
   def new
@@ -14,38 +16,37 @@ class OauthClientsController < ApplicationController
   def create
     @client_application = current_user.client_applications.build(params[:client_application])
     if @client_application.save
-      flash[:notice] = "Registered the information successfully"
-      redirect_to :action => "show", :id => @client_application.id
+      flash[:notice] = 'Registered the information successfully'
+      redirect_to action: 'show', id: @client_application.id
     else
-      render :action => "new"
+      render action: 'new'
     end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @client_application.update_attributes(params[:client_application])
-      flash[:notice] = "Updated the client information successfully"
-      redirect_to :action => "show", :id => @client_application.id
+      flash[:notice] = 'Updated the client information successfully'
+      redirect_to action: 'show', id: @client_application.id
     else
-      render :action => "edit"
+      render action: 'edit'
     end
   end
 
   def destroy
     @client_application.destroy
-    flash[:notice] = "Destroyed the client application registration"
-    redirect_to :action => "index"
+    flash[:notice] = 'Destroyed the client application registration'
+    redirect_to action: 'index'
   end
 
   private
+
   def get_client_application
     unless @client_application = current_user.client_applications.find(params[:id])
-      flash.now[:error] = "Wrong application id"
+      flash.now[:error] = 'Wrong application id'
       raise ActiveRecord::RecordNotFound
     end
   end

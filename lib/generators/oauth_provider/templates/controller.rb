@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require 'oauth/controllers/provider_controller'
 class OauthController < ApplicationController
   include OAuth::Controllers::ProviderController
 
   protected
+
   # Override this to match your authorization page form
   # It currently expects a checkbox called authorize
   # def user_authorizes_token?
@@ -19,5 +22,4 @@ class OauthController < ApplicationController
   #     nil
   #   end
   # end
-
 end

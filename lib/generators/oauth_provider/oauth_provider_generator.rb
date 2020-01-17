@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'generators/oauth_inflections'
 
 class OauthProviderGenerator < Rails::Generators::NamedBase
-  source_root File.expand_path("../templates", __FILE__)
+  source_root File.expand_path('templates', __dir__)
 
-  argument :name, :type => :string, :default => 'Oauth'
+  argument :name, type: :string, default: 'Oauth'
 
   desc 'This creates an OAuth Provider controller as well as the requisite models.'
 
@@ -12,9 +14,9 @@ class OauthProviderGenerator < Rails::Generators::NamedBase
   def check_class_collisions
     # Check for class naming collisions.
     class_collisions class_path, "#{class_name}Controller", # Oauth Controller
-                                 "#{class_name}Helper",
-                                 "#{class_name}ClientsController",
-                                 "#{class_name}ClientsHelper"
+                     "#{class_name}Helper",
+                     "#{class_name}ClientsController",
+                     "#{class_name}ClientsHelper"
   end
 
   def copy_controller_files

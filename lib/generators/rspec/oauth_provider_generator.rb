@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require 'generators/rspec'
 
 module Rspec
   module Generators
     class OauthProviderGenerator < Rails::Generators::NamedBase
-      source_root File.expand_path('../templates', __FILE__)
+      source_root File.expand_path('templates', __dir__)
 
-      argument :name, :type => :string, :default => 'Oauth'
-      class_option :fixture, :type => :boolean
+      argument :name, type: :string, default: 'Oauth'
+      class_option :fixture, type: :boolean
 
       def copy_controller_spec_files
         template 'clients_controller_spec.rb',
-          File.join('spec/controllers', class_path, "#{file_name}_clients_controller_spec.rb")
+                 File.join('spec/controllers', class_path, "#{file_name}_clients_controller_spec.rb")
       end
 
       def copy_models_spec_files

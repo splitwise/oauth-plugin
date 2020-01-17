@@ -1,19 +1,22 @@
+# frozen_string_literal: true
+
 class RequestToken < OauthToken
   attr_accessor :provided_oauth_verifier
 
   def authorize!(user)
     return false if authorized?
+
     self.user           = user
     self.authorized_at  = Time.now
-    self.verifier       = OAuth::Helper.generate_key(20)[0,20] unless oauth10?
-    self.save
+    self.verifier       = OAuth::Helper.generate_key(20)[0, 20] unless oauth10?
+    save
   end
 
   def exchange!
     return false unless authorized?
     return false unless oauth10? || verifier == provided_oauth_verifier
 
-    AccessToken.create(:user => user, :client_application => client_application).tap do
+    AccessToken.create(user: user, client_application: client_application).tap do
       invalidate!
     end
   end
@@ -31,6 +34,6 @@ class RequestToken < OauthToken
   end
 
   def oauth10?
-    (defined? OAUTH_10_SUPPORT) && OAUTH_10_SUPPORT && self.callback_url.blank?
+    (defined? OAUTH_10_SUPPORT) && OAUTH_10_SUPPORT && callback_url.blank?
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # edit this file to contain credentials for the OAuth services you support.
 # each entry needs a corresponding token model.
 #
@@ -67,7 +69,9 @@
 #   }
 # }
 #
-OAUTH_CREDENTIALS = {
-} unless defined? OAUTH_CREDENTIALS
+unless defined? OAUTH_CREDENTIALS
+  OAUTH_CREDENTIALS = {
+  }.freeze
+end
 
 load 'oauth/models/consumers/service_loader.rb'

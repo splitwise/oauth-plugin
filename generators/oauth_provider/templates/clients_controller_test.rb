@@ -1,8 +1,14 @@
+# frozen_string_literal: true
+
 require File.dirname(__FILE__) + '/../test_helper'
 require File.dirname(__FILE__) + '/../oauth_controller_test_helper'
 require 'oauth/client/action_controller_request'
 
-class OauthClientsController; def rescue_action(e) raise e end; end
+class OauthClientsController
+  def rescue_action(e)
+    raise e
+  end
+end
 
 class OauthClientsControllerIndexTest < ActionController::TestCase
   include OAuthControllerTestHelper
@@ -54,7 +60,7 @@ class OauthClientsControllerShowTest < ActionController::TestCase
   end
 
   def do_get
-    get :show, :id => '3'
+    get :show, id: '3'
   end
 
   def test_should_be_successful
@@ -77,7 +83,6 @@ class OauthClientsControllerShowTest < ActionController::TestCase
     do_get
     assert_template 'show'
   end
-
 end
 
 class OauthClientsControllerNewTest < ActionController::TestCase
@@ -111,7 +116,6 @@ class OauthClientsControllerNewTest < ActionController::TestCase
     do_get
     assert_template 'new'
   end
-
 end
 
 class OauthClientsControllerEditTest < ActionController::TestCase
@@ -127,7 +131,7 @@ class OauthClientsControllerEditTest < ActionController::TestCase
   end
 
   def do_get
-    get :edit, :id=>'3'
+    get :edit, id: '3'
   end
 
   def test_should_be_successful
@@ -150,7 +154,6 @@ class OauthClientsControllerEditTest < ActionController::TestCase
     do_get
     assert_template 'edit'
   end
-
 end
 
 class OauthClientsControllerCreateTest < ActionController::TestCase
@@ -169,12 +172,12 @@ class OauthClientsControllerCreateTest < ActionController::TestCase
 
   def do_valid_post
     @client_application.expects(:save).returns(true)
-    post :create,'client_application' => {'name' => 'my site'}
+    post :create, 'client_application' => { 'name' => 'my site' }
   end
 
   def do_invalid_post
     @client_application.expects(:save).returns(false)
-    post :create,:client_application=>{:name => 'my site'}
+    post :create, client_application: { name: 'my site' }
   end
 
   def test_should_query_current_users_client_applications
@@ -185,7 +188,7 @@ class OauthClientsControllerCreateTest < ActionController::TestCase
   def test_should_redirect_to_new_client_application
     do_valid_post
     assert_response :redirect
-    assert_redirected_to(:action => "show", :id => @client_application.id)
+    assert_redirected_to(action: 'show', id: @client_application.id)
   end
 
   def test_should_assign_client_applications
@@ -213,7 +216,7 @@ class OauthClientsControllerDestroyTest < ActionController::TestCase
   end
 
   def do_delete
-    delete :destroy,:id=>'3'
+    delete :destroy, id: '3'
   end
 
   def test_should_query_current_users_client_applications
@@ -230,9 +233,8 @@ class OauthClientsControllerDestroyTest < ActionController::TestCase
   def test_should_redirect_to_list
     do_delete
     assert_response :redirect
-    assert_redirected_to :action => 'index'
+    assert_redirected_to action: 'index'
   end
-
 end
 
 class OauthClientsControllerUpdateTest < ActionController::TestCase
@@ -248,12 +250,12 @@ class OauthClientsControllerUpdateTest < ActionController::TestCase
 
   def do_valid_update
     @client_application.expects(:update_attributes).returns(true)
-    put :update, :id => '1', 'client_application' => {'name' => 'my site'}
+    put :update, :id => '1', 'client_application' => { 'name' => 'my site' }
   end
 
   def do_invalid_update
     @client_application.expects(:update_attributes).returns(false)
-    put :update, :id=>'1', 'client_application' => {'name' => 'my site'}
+    put :update, :id => '1', 'client_application' => { 'name' => 'my site' }
   end
 
   def test_should_query_current_users_client_applications
@@ -265,7 +267,7 @@ class OauthClientsControllerUpdateTest < ActionController::TestCase
   def test_should_redirect_to_new_client_application
     do_valid_update
     assert_response :redirect
-    assert_redirected_to :action => "show", :id => @client_application.id
+    assert_redirected_to action: 'show', id: @client_application.id
   end
 
   def test_should_assign_client_applications

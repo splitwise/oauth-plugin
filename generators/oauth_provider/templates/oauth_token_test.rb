@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require File.dirname(__FILE__) + '/../test_helper'
 
 class RequestTokenTest < ActiveSupport::TestCase
-
   fixtures :client_applications, :users, :oauth_tokens
 
   def setup
-    @token = RequestToken.create :client_application=>client_applications(:one)
+    @token = RequestToken.create client_application: client_applications(:one)
   end
 
   def test_should_be_valid
@@ -53,5 +54,4 @@ class RequestTokenTest < ActiveSupport::TestCase
     assert_equal users(:quentin), @access.user
     assert @access.authorized?
   end
-
 end

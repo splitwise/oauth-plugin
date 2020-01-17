@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class OauthToken < ActiveRecord::Base
   belongs_to :client_application
   belongs_to :user
   validates_uniqueness_of :token
   validates_presence_of :client_application, :token
-  before_validation :generate_keys, :on => :create
+  before_validation :generate_keys, on: :create
 
   def invalidated?
     invalidated_at != nil
@@ -14,7 +16,7 @@ class OauthToken < ActiveRecord::Base
   end
 
   def authorized?
-    authorized_at != nil && !invalidated?
+    !authorized_at.nil? && !invalidated?
   end
 
   def to_query
@@ -24,7 +26,7 @@ class OauthToken < ActiveRecord::Base
   protected
 
   def generate_keys
-    self.token = OAuth::Helper.generate_key(40)[0,40]
-    self.secret = OAuth::Helper.generate_key(40)[0,40]
+    self.token = OAuth::Helper.generate_key(40)[0, 40]
+    self.secret = OAuth::Helper.generate_key(40)[0, 40]
   end
 end

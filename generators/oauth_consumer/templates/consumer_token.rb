@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'oauth/models/consumers/token'
 class ConsumerToken < ActiveRecord::Base
   include Oauth::Models::Consumers::Token
@@ -7,5 +9,4 @@ class ConsumerToken < ActiveRecord::Base
 
   # Modify this with class_name etc to match your application
   belongs_to :user
-
 end

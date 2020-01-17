@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails/generators/erb/controller/controller_generator'
 
 module Haml
   module Generators
     class OauthProviderGenerator < Erb::Generators::Base
-      source_root File.expand_path('../oauth_provider_templates', __FILE__)
+      source_root File.expand_path('oauth_provider_templates', __dir__)
 
-      argument :name, :type => :string, :default => 'Oauth'
+      argument :name, type: :string, default: 'Oauth'
 
       def copy_view_files
         template '_form.html.haml',              File.join('app/views', class_path, 'oauth_clients', '_form.html.haml')
@@ -20,6 +22,7 @@ module Haml
       end
 
       protected
+
       def handler
         :haml
       end

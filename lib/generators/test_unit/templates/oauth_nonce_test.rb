@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'oauth/helper'
 require File.dirname(__FILE__) + '/../test_helper'
 
@@ -5,7 +7,7 @@ class ClientNoneTest < ActiveSupport::TestCase
   include OAuth::Helper
 
   def setup
-    @oauth_nonce = OauthNonce.remember(generate_key,Time.now.to_i)
+    @oauth_nonce = OauthNonce.remember(generate_key, Time.now.to_i)
   end
 
   def test_should_be_valid

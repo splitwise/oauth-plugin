@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails/generators/test_unit'
 
 module TestUnit
   module Generators
     class OauthProviderGenerator < Base
-      source_root File.expand_path('../templates', __FILE__)
+      source_root File.expand_path('templates', __dir__)
 
-      argument :name, :type => :string, :default => 'Oauth'
-      class_option :fixture, :type => :boolean
+      argument :name, type: :string, default: 'Oauth'
+      class_option :fixture, type: :boolean
 
       def copy_controller_test_files
         template 'clients_controller_test.rb',

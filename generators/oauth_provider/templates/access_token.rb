@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccessToken < OauthToken
   validates_presence_of :user, :secret
   before_create :set_authorized_at
