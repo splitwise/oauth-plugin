@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rack-test'
   s.add_development_dependency 'rspec', '~> 3.9'
   s.add_development_dependency 'rubocop', '~> 0.79.0'
+  s.add_development_dependency 'rubocop-rails', '~> 2.4.1'
   s.add_development_dependency 'rubocop-rspec', '~> 1.37.1'
 
   s.add_dependency 'multi_json'
