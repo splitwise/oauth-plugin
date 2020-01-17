@@ -24,8 +24,8 @@ module OAuth
         request = ::Rack::Request.new(env)
         env['oauth_plugin'] = true
         strategies = []
-        if token_string = oauth2_token(request)
-          if token = Oauth2Token.where('invalidated_at IS NULL and authorized_at IS NOT NULL and token = ?', token_string).first
+        if (token_string = oauth2_token(request))
+          if (token = Oauth2Token.where('invalidated_at IS NULL and authorized_at IS NOT NULL and token = ?', token_string).first)
             env['oauth.token']   = token
             env['oauth.version'] = 2
             strategies << :oauth20_token
@@ -33,22 +33,18 @@ module OAuth
           end
 
         elsif oauth1_verify(request) do |request_proxy|
-          client_application = ClientApplication.find_by_key(request_proxy.consumer_key)
+          client_application = ClientApplication.find_by(key: request_proxy.consumer_key)
           env['oauth.client_application_candidate'] = client_application
 
           oauth_token = nil
 
           if client_application
             # Store this temporarily in client_application object for use in request token generation
-            if request_proxy.oauth_callback
-              client_application.token_callback_url = request_proxy.oauth_callback
-            end
+            client_application.token_callback_url = request_proxy.oauth_callback if request_proxy.oauth_callback
 
             if request_proxy.token
               oauth_token = client_application.tokens.where('invalidated_at IS NULL AND authorized_at IS NOT NULL and token = ?', request_proxy.token).first
-              if oauth_token.respond_to?(:provided_oauth_verifier=)
-                oauth_token.provided_oauth_verifier = request_proxy.oauth_verifier
-              end
+              oauth_token.provided_oauth_verifier = request_proxy.oauth_verifier if oauth_token.respond_to?(:provided_oauth_verifier=)
               env['oauth.token_candidate'] = oauth_token
             end
           end
@@ -80,13 +76,11 @@ module OAuth
 
       def oauth1_verify(request, options = {}, &block)
         signature = OAuth::Signature.build(request, options, &block)
-        unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
-          return false
-        end
+        return false unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
 
         value = signature.verify
         value
-      rescue OAuth::Signature::UnknownSignatureMethod => e
+      rescue OAuth::Signature::UnknownSignatureMethod
         false
       end
 

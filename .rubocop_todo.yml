@@ -19,7 +19,6 @@ Lint/AssignmentInCondition:
   Exclude:
     - 'generators/oauth_provider/templates/clients_controller.rb'
     - 'lib/generators/oauth_provider/templates/clients_controller.rb'
-    - 'lib/oauth/rack/oauth_filter.rb'
 
 # Offense count: 3
 Lint/DuplicateMethods:
@@ -41,7 +40,6 @@ Lint/UselessAssignment:
     - 'generators/oauth_provider/templates/client_application.rb'
     - 'lib/generators/active_record/oauth_provider_templates/client_application.rb'
     - 'lib/generators/mongoid/oauth_provider_templates/client_application.rb'
-    - 'lib/oauth/rack/oauth_filter.rb'
 
 # Offense count: 2
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
@@ -267,7 +265,6 @@ Rails/DynamicFindBy:
     - 'generators/oauth_provider/templates/client_application.rb'
     - 'lib/generators/active_record/oauth_provider_templates/client_application.rb'
     - 'lib/oauth/provider/authorizer.rb'
-    - 'lib/oauth/rack/oauth_filter.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -372,7 +369,6 @@ Style/IfUnlessModifier:
     - 'lib/oauth/controllers/consumer_controller.rb'
     - 'lib/oauth/models/consumers/services/oauth2_token.rb'
     - 'lib/oauth/models/consumers/token.rb'
-    - 'lib/oauth/rack/oauth_filter.rb'
     - 'oauth-plugin.gemspec'
     - 'spec/rack/oauth_filter_spec.rb'
 
