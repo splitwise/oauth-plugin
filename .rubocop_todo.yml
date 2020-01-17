@@ -266,7 +266,6 @@ Rails/DynamicFindBy:
   Exclude:
     - 'generators/oauth_provider/templates/client_application.rb'
     - 'lib/generators/active_record/oauth_provider_templates/client_application.rb'
-    - 'lib/oauth/controllers/provider_controller.rb'
     - 'lib/oauth/provider/authorizer.rb'
     - 'lib/oauth/rack/oauth_filter.rb'
 
@@ -277,14 +276,6 @@ Rails/DynamicFindBy:
 Rails/HttpStatus:
   Exclude:
     - 'lib/oauth/controllers/consumer_controller.rb'
-    - 'lib/oauth/controllers/provider_controller.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: NotNilAndNotEmpty, NotBlank, UnlessBlank.
-Rails/Present:
-  Exclude:
-    - 'lib/oauth/controllers/provider_controller.rb'
 
 # Offense count: 3
 # Configuration parameters: Blacklist, Whitelist.

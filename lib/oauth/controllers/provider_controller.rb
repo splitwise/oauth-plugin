@@ -18,31 +18,29 @@ module OAuth
       def request_token
         @token = current_client_application.create_request_token params
         if @token
-          render text: @token.to_query
+          render body: @token.to_query
         else
-          render nothing: true, status: 401
+          head :unauthorized
         end
       end
 
       def access_token
         @token = current_token&.exchange!
         if @token
-          render text: @token.to_query
+          render body: @token.to_query
         else
-          render nothing: true, status: 401
+          head :unauthorized
         end
       end
 
       def token
-        @client_application = ClientApplication.find_by_key! params[:client_id]
+        @client_application = ClientApplication.find_by! key: params[:client_id]
         if @client_application.secret != params[:client_secret]
           oauth2_error 'invalid_client'
           return
         end
         # older drafts used none for client_credentials
-        if params[:grant_type] == 'none'
-          params[:grant_type] = 'client_credentials'
-        end
+        params[:grant_type] = 'client_credentials' if params[:grant_type] == 'none'
         logger.info "grant_type=#{params[:grant_type]}"
         if %w[authorization_code password client_credentials].include?(params[:grant_type])
           send "oauth2_token_#{params[:grant_type].underscore}"
@@ -52,26 +50,26 @@ module OAuth
       end
 
       def test_request
-        render text: params.collect { |k, v| "#{k}=#{v}" }.join('&')
+        render body: params.collect { |k, v| "#{k}=#{v}" }.join('&')
       end
 
       def authorize
         if params[:oauth_token]
-          @token = ::RequestToken.find_by_token! params[:oauth_token]
+          @token = ::RequestToken.find_by! token: params[:oauth_token]
           oauth1_authorize
         else
           if request.post?
             @authorizer = OAuth::Provider::Authorizer.new current_user, user_authorizes_token?, params
             redirect_to @authorizer.redirect_uri
           else
-            @client_application = ClientApplication.find_by_key! params[:client_id]
+            @client_application = ClientApplication.find_by! key: params[:client_id]
             render action: 'oauth2_authorize'
           end
         end
       end
 
       def revoke
-        @token = current_user.tokens.find_by_token! params[:token]
+        @token = current_user.tokens.find_by! token: params[:token]
         if @token
           @token.invalidate!
           flash[:notice] = "You've revoked the token for #{@token.client_application.name}"
@@ -114,7 +112,7 @@ module OAuth
             if user_authorizes_token?
               @token.authorize!(current_user)
               callback_url  = @token.oob? ? @token.client_application.callback_url : @token.callback_url
-              @redirect_url = URI.parse(callback_url) unless callback_url.blank?
+              @redirect_url = URI.parse(callback_url) if callback_url.present?
 
               if @redirect_url.to_s.blank?
                 render action: 'authorize_success'
@@ -134,7 +132,7 @@ module OAuth
 
       # http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.1
       def oauth2_token_authorization_code
-        @verification_code = @client_application.oauth2_verifiers.find_by_token params[:code]
+        @verification_code = @client_application.oauth2_verifiers.find_by token: params[:code]
         unless @verification_code
           oauth2_error
           return
@@ -175,7 +173,7 @@ module OAuth
       end
 
       def oauth2_error(error = 'invalid_grant')
-        render json: { error: error }.to_json, status: 400
+        render json: { error: error }.to_json, status: :bad_request
       end
     end
   end
