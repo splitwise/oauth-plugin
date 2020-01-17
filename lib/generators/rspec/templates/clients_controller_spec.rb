@@ -23,7 +23,7 @@ describe OauthClientsController do
 
     it "should be successful" do
       do_get
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "should assign client_applications" do
@@ -33,7 +33,7 @@ describe OauthClientsController do
 
     it "should render index template" do
       do_get
-      response.should render_template('index')
+      expect(response).to render_template('index')
     end
   end
 
@@ -45,7 +45,7 @@ describe OauthClientsController do
 
     it "should be successful" do
       do_get
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "should assign client_applications" do
@@ -55,7 +55,7 @@ describe OauthClientsController do
 
     it "should render show template" do
       do_get
-      response.should render_template('show')
+      expect(response).to render_template('show')
     end
 
   end
@@ -68,7 +68,7 @@ describe OauthClientsController do
 
     it "should be successful" do
       do_get
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "should assign client_applications" do
@@ -78,7 +78,7 @@ describe OauthClientsController do
 
     it "should render show template" do
       do_get
-      response.should render_template('new')
+      expect(response).to render_template('new')
     end
 
   end
@@ -90,7 +90,7 @@ describe OauthClientsController do
 
     it "should be successful" do
       do_get
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "should assign client_applications" do
@@ -100,7 +100,7 @@ describe OauthClientsController do
 
     it "should render edit template" do
       do_get
-      response.should render_template('edit')
+      expect(response).to render_template('edit')
     end
 
   end
@@ -118,13 +118,13 @@ describe OauthClientsController do
 
     it "should redirect to new client_application" do
       do_valid_post
-      response.should be_redirect
-      response.should redirect_to(:action => "show", :id => @client_application.id)
+      expect(response).to be_redirect
+      expect(response).to redirect_to(:action => "show", :id => @client_application.id)
     end
 
     it "should render show template" do
       do_invalid_post
-      response.should render_template('new')
+      expect(response).to render_template('new')
     end
   end
 
@@ -141,8 +141,8 @@ describe OauthClientsController do
 
     it "should redirect to list" do
       do_delete
-      response.should be_redirect
-      response.should redirect_to(:action => 'index')
+      expect(response).to be_redirect
+      expect(response).to redirect_to(:action => 'index')
     end
 
   end
@@ -159,18 +159,18 @@ describe OauthClientsController do
 
     it "should redirect to show client_application" do
       do_valid_update
-      response.should be_redirect
-      response.should redirect_to(:action => "show", :id => 1)
+      expect(response).to be_redirect
+      expect(response).to redirect_to(:action => "show", :id => 1)
     end
 
     it "should assign client_applications" do
       do_invalid_update
-      assigns[:client_application].should == ClientApplication.find(1)
+      expect(assigns[:client_application]).to eq(ClientApplication.find(1))
     end
 
     it "should render show template" do
       do_invalid_update
-      response.should render_template('edit')
+      expect(response).to render_template('edit')
     end
   end
 end

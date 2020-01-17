@@ -7,7 +7,7 @@ describe RequestToken do
   end
 
   it "should be valid" do
-    @token.should be_valid
+    expect(@token).to be_valid
   end
 
   it "should not have errors" do
@@ -31,7 +31,7 @@ describe RequestToken do
   end
 
   it "should not have a verifier" do
-    @token.verifier.should be_nil
+    expect(@token.verifier).to be_nil
   end
 
   it "should not be oob" do
@@ -59,7 +59,7 @@ describe RequestToken do
         end
 
         it "should be authorized" do
-          @token.should be_authorized
+          expect(@token).to be_authorized
         end
 
         it "should have authorized at" do
@@ -67,7 +67,7 @@ describe RequestToken do
         end
 
         it "should have user set" do
-          @token.user.should == users(:quentin)
+          expect(@token.user).to eq(users(:quentin))
         end
 
         it "should have verifier" do
@@ -82,7 +82,7 @@ describe RequestToken do
           end
 
           it "should be valid" do
-            @access.should be_valid
+            expect(@access).to be_valid
           end
 
           it "should have no error messages" do
@@ -90,15 +90,15 @@ describe RequestToken do
           end
 
           it "should invalidate request token" do
-            @token.should be_invalidated
+            expect(@token).to be_invalidated
           end
 
           it "should set user on access token" do
-            @access.user.should == users(:quentin)
+            expect(@access.user).to eq(users(:quentin))
           end
 
           it "should authorize accesstoken" do
-            @access.should be_authorized
+            expect(@access).to be_authorized
           end
         end
 
@@ -150,7 +150,7 @@ describe RequestToken do
       end
 
       it "should be oob" do
-        @token.should be_oob
+        expect(@token).to be_oob
       end
 
       describe "authorize request" do
@@ -159,7 +159,7 @@ describe RequestToken do
         end
 
         it "should be authorized" do
-          @token.should be_authorized
+          expect(@token).to be_authorized
         end
 
         it "should have authorized at" do
@@ -167,7 +167,7 @@ describe RequestToken do
         end
 
         it "should have user set" do
-          @token.user.should == users(:quentin)
+          expect(@token.user).to eq(users(:quentin))
         end
 
         it "should have verifier" do
@@ -182,15 +182,15 @@ describe RequestToken do
           end
 
           it "should invalidate request token" do
-            @token.should be_invalidated
+            expect(@token).to be_invalidated
           end
 
           it "should set user on access token" do
-            @access.user.should == users(:quentin)
+            expect(@access.user).to eq(users(:quentin))
           end
 
           it "should authorize accesstoken" do
-            @access.should be_authorized
+            expect(@access).to be_authorized
           end
         end
 
@@ -236,7 +236,7 @@ describe RequestToken do
     describe "OAuth 1.0" do
 
       it "should be oauth10" do
-        @token.should be_oauth10
+        expect(@token).to be_oauth10
       end
 
       it "should not be oob" do
@@ -249,7 +249,7 @@ describe RequestToken do
         end
 
         it "should be authorized" do
-          @token.should be_authorized
+          expect(@token).to be_authorized
         end
 
         it "should have authorized at" do
@@ -257,11 +257,11 @@ describe RequestToken do
         end
 
         it "should have user set" do
-          @token.user.should == users(:quentin)
+          expect(@token.user).to eq(users(:quentin))
         end
 
         it "should not have verifier" do
-          @token.verifier.should be_nil
+          expect(@token.verifier).to be_nil
         end
 
         describe "exchange for access token" do
@@ -271,15 +271,15 @@ describe RequestToken do
           end
 
           it "should invalidate request token" do
-            @token.should be_invalidated
+            expect(@token).to be_invalidated
           end
 
           it "should set user on access token" do
-            @access.user.should == users(:quentin)
+            expect(@access.user).to eq(users(:quentin))
           end
 
           it "should authorize accesstoken" do
-            @access.should be_authorized
+            expect(@access).to be_authorized
           end
         end
 

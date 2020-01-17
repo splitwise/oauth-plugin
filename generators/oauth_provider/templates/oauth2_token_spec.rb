@@ -7,7 +7,7 @@ describe Oauth2Token do
   end
 
   it "should be valid" do
-    @token.should be_valid
+    expect(@token).to be_valid
   end
 
   it "should have a token" do
@@ -19,7 +19,7 @@ describe Oauth2Token do
   end
 
   it "should be authorized" do
-    @token.should be_authorized
+    expect(@token).to be_authorized
   end
 
   it "should not be invalidated" do
@@ -27,26 +27,26 @@ describe Oauth2Token do
   end
 
   it "should generate correct json and query strong" do
-    @token.as_json.should == {:access_token => @token.token, :token_type => 'bearer'}
-    @token.to_query.should == "access_token=#{@token.token}&token_type=bearer"
+    expect(@token.as_json).to eq({:access_token => @token.token, :token_type => 'bearer'})
+    expect(@token.to_query).to eq("access_token=#{@token.token}&token_type=bearer")
   end
 
   it "should generate correct json and query string and include state in query if present" do
     @token.state = 'bb bb'
-    @token.as_json.should == {:access_token => @token.token, :token_type => 'bearer'}
-    @token.to_query.should == "access_token=#{@token.token}&token_type=bearer&state=bb%20bb"
+    expect(@token.as_json).to eq({:access_token => @token.token, :token_type => 'bearer'})
+    expect(@token.to_query).to eq("access_token=#{@token.token}&token_type=bearer&state=bb%20bb")
   end
 
   it "should generate correct json and query string and include scope in query if present" do
     @token.scope = 'bbbb aaaa'
-    @token.as_json.should == {:access_token => @token.token, :token_type => 'bearer'}
-    @token.to_query.should == "access_token=#{@token.token}&token_type=bearer&scope=bbbb%20aaaa"
+    expect(@token.as_json).to eq({:access_token => @token.token, :token_type => 'bearer'})
+    expect(@token.to_query).to eq("access_token=#{@token.token}&token_type=bearer&scope=bbbb%20aaaa")
   end
 
   it "should generate correct json and include expires_in if present" do
     @token.expires_at = 1.hour.from_now
-    @token.as_json.should == { :access_token => @token.token, :token_type => 'bearer', :expires_in => 3600 }
-    @token.to_query.should == "access_token=#{@token.token}&token_type=bearer&expires_in=3600"
+    expect(@token.as_json).to eq({ :access_token => @token.token, :token_type => 'bearer', :expires_in => 3600 })
+    expect(@token.to_query).to eq("access_token=#{@token.token}&token_type=bearer&expires_in=3600")
   end
 
 end

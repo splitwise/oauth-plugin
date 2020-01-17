@@ -6,12 +6,12 @@ describe ClientApplication do
   end
 
   it "should be valid" do
-    @application.should be_valid
+    expect(@application).to be_valid
   end
 
 
   it "should not have errors" do
-    @application.errors.full_messages.should == []
+    expect(@application.errors.full_messages).to eq([])
   end
 
   it "should have key and secret" do
@@ -21,8 +21,8 @@ describe ClientApplication do
 
   it "should have credentials" do
     @application.credentials.should_not be_nil
-    @application.credentials.key.should == @application.key
-    @application.credentials.secret.should == @application.secret
+    expect(@application.credentials.key).to eq(@application.key)
+    expect(@application.credentials.secret).to eq(@application.secret)
   end
 
 end
