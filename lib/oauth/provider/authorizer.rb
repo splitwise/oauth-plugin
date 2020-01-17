@@ -79,7 +79,7 @@ module OAuth
       protected
 
       def base_uri
-        URI.parse(params[:redirect_uri] || app.callback_url)
+        app.callback_url
       end
     end
   end
