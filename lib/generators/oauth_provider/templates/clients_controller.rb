@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class OauthClientsController < ApplicationController
-  before_filter :login_required
-  before_filter :get_client_application, only: %i[show edit update destroy]
+  before_action :login_required
+  before_action :get_client_application, only: %i[show edit update destroy]
 
   def index
     @client_applications = current_user.client_applications
