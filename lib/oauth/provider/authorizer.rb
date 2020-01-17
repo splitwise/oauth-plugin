@@ -1,4 +1,5 @@
 require 'uri'
+require 'erb'
 
 module OAuth
   module Provider
@@ -69,7 +70,7 @@ module OAuth
 
       def encode_response
         response.map do |k, v|
-          [URI.escape(k.to_s),URI.escape(v)] * "="
+          [ERB::Util.url_encode(k.to_s),ERB::Util.url_encode(v)] * "="
         end * "&"
       end
 
