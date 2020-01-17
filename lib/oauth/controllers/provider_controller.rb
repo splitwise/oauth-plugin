@@ -38,6 +38,9 @@ module OAuth
         if @client_application.secret != params[:client_secret]
           oauth2_error 'invalid_client'
           return
+        elsif params[:redirect_uri] && @client_application.callback_url != params[:redirect_uri]
+          oauth2_error # generic, prevent open redirect
+          return
         end
         # older drafts used none for client_credentials
         params[:grant_type] = 'client_credentials' if params[:grant_type] == 'none'
