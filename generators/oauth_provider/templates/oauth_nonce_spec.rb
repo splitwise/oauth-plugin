@@ -5,7 +5,7 @@ require 'oauth/helper'
 describe OauthNonce do
   include OAuth::Helper
   before(:each) do
-    @oauth_nonce = OauthNonce.remember(generate_key, Time.now.to_i)
+    @oauth_nonce = described_class.remember(generate_key, Time.now.to_i)
   end
 
   it 'should be valid' do
@@ -21,6 +21,6 @@ describe OauthNonce do
   end
 
   it 'should not allow a second one with the same values' do
-    expect(OauthNonce.remember(@oauth_nonce.nonce, @oauth_nonce.timestamp)).to eq(false)
+    expect(described_class.remember(@oauth_nonce.nonce, @oauth_nonce.timestamp)).to eq(false)
   end
 end

@@ -22,10 +22,10 @@ describe OAuth::Provider::Authorizer do
                                                            callback_url: 'http://mysite.com/callback',
                                                            scope: 'a b').and_return(@code)
 
-        @authorizer = OAuth::Provider::Authorizer.new @user, true, response_type: 'code',
-                                                                   scope: 'a b',
-                                                                   client_id: 'client id',
-                                                                   redirect_uri: 'http://mysite.com/callback'
+        @authorizer = described_class.new @user, true, response_type: 'code',
+                                                       scope: 'a b',
+                                                       client_id: 'client id',
+                                                       redirect_uri: 'http://mysite.com/callback'
 
         expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback?code=secret%20auth%20code')
         expect(@authorizer).to be_authorized
@@ -37,11 +37,11 @@ describe OAuth::Provider::Authorizer do
                                                            callback_url: 'http://mysite.com/callback',
                                                            scope: 'a b').and_return(@code)
 
-        @authorizer = OAuth::Provider::Authorizer.new @user, true, response_type: 'code',
-                                                                   state: 'customer id',
-                                                                   scope: 'a b',
-                                                                   client_id: 'client id',
-                                                                   redirect_uri: 'http://mysite.com/callback'
+        @authorizer = described_class.new @user, true, response_type: 'code',
+                                                       state: 'customer id',
+                                                       scope: 'a b',
+                                                       client_id: 'client id',
+                                                       redirect_uri: 'http://mysite.com/callback'
 
         expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback?code=secret%20auth%20code&state=customer%20id')
         expect(@authorizer).to be_authorized
@@ -53,10 +53,10 @@ describe OAuth::Provider::Authorizer do
                                                            callback_url: 'http://mysite.com/callback?this=one',
                                                            scope: 'a b').and_return(@code)
 
-        @authorizer = OAuth::Provider::Authorizer.new @user, true, response_type: 'code',
-                                                                   scope: 'a b',
-                                                                   client_id: 'client id',
-                                                                   redirect_uri: 'http://mysite.com/callback?this=one'
+        @authorizer = described_class.new @user, true, response_type: 'code',
+                                                       scope: 'a b',
+                                                       client_id: 'client id',
+                                                       redirect_uri: 'http://mysite.com/callback?this=one'
         expect(@authorizer).to be_authorized
         expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback?this=one&code=secret%20auth%20code')
       end
@@ -65,21 +65,21 @@ describe OAuth::Provider::Authorizer do
 
   describe 'user does not authorize' do
     it 'should send error' do
-      @authorizer = OAuth::Provider::Authorizer.new @user, false, response_type: 'code',
-                                                                  scope: 'a b',
-                                                                  client_id: 'client id',
-                                                                  redirect_uri: 'http://mysite.com/callback'
+      @authorizer = described_class.new @user, false, response_type: 'code',
+                                                      scope: 'a b',
+                                                      client_id: 'client id',
+                                                      redirect_uri: 'http://mysite.com/callback'
 
       expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback?error=access_denied')
       expect(@authorizer).not_to be_authorized
     end
 
     it 'should send error with state and query params in callback' do
-      @authorizer = OAuth::Provider::Authorizer.new @user, false, response_type: 'code',
-                                                                  scope: 'a b',
-                                                                  client_id: 'client id',
-                                                                  redirect_uri: 'http://mysite.com/callback?this=one',
-                                                                  state: 'my customer'
+      @authorizer = described_class.new @user, false, response_type: 'code',
+                                                      scope: 'a b',
+                                                      client_id: 'client id',
+                                                      redirect_uri: 'http://mysite.com/callback?this=one',
+                                                      state: 'my customer'
 
       expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback?this=one&error=access_denied&state=my%20customer')
       expect(@authorizer).not_to be_authorized
@@ -102,10 +102,10 @@ describe OAuth::Provider::Authorizer do
                                                         callback_url: 'http://mysite.com/callback',
                                                         scope: 'a b').and_return(@token)
 
-        @authorizer = OAuth::Provider::Authorizer.new @user, true, response_type: 'token',
-                                                                   scope: 'a b',
-                                                                   client_id: 'client id',
-                                                                   redirect_uri: 'http://mysite.com/callback'
+        @authorizer = described_class.new @user, true, response_type: 'token',
+                                                       scope: 'a b',
+                                                       client_id: 'client id',
+                                                       redirect_uri: 'http://mysite.com/callback'
 
         expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback#access_token=secret%20auth%20code')
         expect(@authorizer).to be_authorized
@@ -117,11 +117,11 @@ describe OAuth::Provider::Authorizer do
                                                         callback_url: 'http://mysite.com/callback',
                                                         scope: 'a b').and_return(@token)
 
-        @authorizer = OAuth::Provider::Authorizer.new @user, true, response_type: 'token',
-                                                                   state: 'customer id',
-                                                                   scope: 'a b',
-                                                                   client_id: 'client id',
-                                                                   redirect_uri: 'http://mysite.com/callback'
+        @authorizer = described_class.new @user, true, response_type: 'token',
+                                                       state: 'customer id',
+                                                       scope: 'a b',
+                                                       client_id: 'client id',
+                                                       redirect_uri: 'http://mysite.com/callback'
 
         expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback#access_token=secret%20auth%20code&state=customer%20id')
         expect(@authorizer).to be_authorized
@@ -133,10 +133,10 @@ describe OAuth::Provider::Authorizer do
                                                         callback_url: 'http://mysite.com/callback?this=one',
                                                         scope: 'a b').and_return(@token)
 
-        @authorizer = OAuth::Provider::Authorizer.new @user, true, response_type: 'token',
-                                                                   scope: 'a b',
-                                                                   client_id: 'client id',
-                                                                   redirect_uri: 'http://mysite.com/callback?this=one'
+        @authorizer = described_class.new @user, true, response_type: 'token',
+                                                       scope: 'a b',
+                                                       client_id: 'client id',
+                                                       redirect_uri: 'http://mysite.com/callback?this=one'
         expect(@authorizer).to be_authorized
         expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback?this=one#access_token=secret%20auth%20code')
       end
@@ -145,21 +145,21 @@ describe OAuth::Provider::Authorizer do
 
   describe 'user does not authorize' do
     it 'should send error' do
-      @authorizer = OAuth::Provider::Authorizer.new @user, false, response_type: 'token',
-                                                                  scope: 'a b',
-                                                                  client_id: 'client id',
-                                                                  redirect_uri: 'http://mysite.com/callback'
+      @authorizer = described_class.new @user, false, response_type: 'token',
+                                                      scope: 'a b',
+                                                      client_id: 'client id',
+                                                      redirect_uri: 'http://mysite.com/callback'
 
       expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback#error=access_denied')
       expect(@authorizer).not_to be_authorized
     end
 
     it 'should send error with state and query params in callback' do
-      @authorizer = OAuth::Provider::Authorizer.new @user, false, response_type: 'token',
-                                                                  scope: 'a b',
-                                                                  client_id: 'client id',
-                                                                  redirect_uri: 'http://mysite.com/callback?this=one',
-                                                                  state: 'my customer'
+      @authorizer = described_class.new @user, false, response_type: 'token',
+                                                      scope: 'a b',
+                                                      client_id: 'client id',
+                                                      redirect_uri: 'http://mysite.com/callback?this=one',
+                                                      state: 'my customer'
 
       expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback?this=one#error=access_denied&state=my%20customer')
       expect(@authorizer).not_to be_authorized
@@ -169,10 +169,10 @@ describe OAuth::Provider::Authorizer do
   it 'should handle unsupported response type' do
     @user = double('user')
 
-    @authorizer = OAuth::Provider::Authorizer.new @user, false, response_type: 'my new',
-                                                                scope: 'a b',
-                                                                client_id: 'client id',
-                                                                redirect_uri: 'http://mysite.com/callback'
+    @authorizer = described_class.new @user, false, response_type: 'my new',
+                                                    scope: 'a b',
+                                                    client_id: 'client id',
+                                                    redirect_uri: 'http://mysite.com/callback'
 
     expect(@authorizer.redirect_uri).to eq('http://mysite.com/callback#error=unsupported_response_type')
     expect(@authorizer).not_to be_authorized
