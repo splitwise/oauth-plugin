@@ -13,7 +13,8 @@ describe OAuth::Provider::Authorizer do
         @app  = double('app')
         @code = double('code', token: 'secret auth code')
 
-        expect(::ClientApplication).to receive(:find_by_key!).with('client id').and_return(@app)
+        expect(::ClientApplication).to receive(:find_by!).with(key: 'client id').and_return(@app)
+        allow(@app).to receive(:callback_url).and_return('http://mysite.com/callback')
       end
 
       it 'should allow' do
@@ -53,6 +54,7 @@ describe OAuth::Provider::Authorizer do
                                                            callback_url: 'http://mysite.com/callback?this=one',
                                                            scope: 'a b').and_return(@code)
 
+        allow(@app).to receive(:callback_url).and_return('http://mysite.com/callback?this=one')
         @authorizer = described_class.new @user, true, response_type: 'code',
                                                        scope: 'a b',
                                                        client_id: 'client id',
@@ -75,6 +77,10 @@ describe OAuth::Provider::Authorizer do
     end
 
     it 'should send error with state and query params in callback' do
+      app = instance_double('ClientApplication')
+      allow(::ClientApplication).to receive(:find_by!).and_return(app)
+      allow(app).to receive(:callback_url).and_return('http://mysite.com/callback?this=one')
+
       @authorizer = described_class.new @user, false, response_type: 'code',
                                                       scope: 'a b',
                                                       client_id: 'client id',
@@ -93,7 +99,8 @@ describe OAuth::Provider::Authorizer do
         @app  = double('app')
         @token = double('token', token: 'secret auth code')
 
-        expect(::ClientApplication).to receive(:find_by_key!).with('client id').and_return(@app)
+        expect(::ClientApplication).to receive(:find_by!).with(key: 'client id').and_return(@app)
+        allow(@app).to receive(:callback_url).and_return('http://mysite.com/callback')
       end
 
       it 'should allow' do
@@ -128,6 +135,8 @@ describe OAuth::Provider::Authorizer do
       end
 
       it 'should allow query string in callback' do
+        allow(@app).to receive(:callback_url).and_return('http://mysite.com/callback?this=one')
+
         expect(::Oauth2Token).to receive(:create!).with(client_application: @app,
                                                         user: @user,
                                                         callback_url: 'http://mysite.com/callback?this=one',
@@ -155,6 +164,10 @@ describe OAuth::Provider::Authorizer do
     end
 
     it 'should send error with state and query params in callback' do
+      app = instance_double('ClientApplication')
+      allow(::ClientApplication).to receive(:find_by!).and_return(app)
+      allow(app).to receive(:callback_url).and_return('http://mysite.com/callback?this=one')
+
       @authorizer = described_class.new @user, false, response_type: 'token',
                                                       scope: 'a b',
                                                       client_id: 'client id',

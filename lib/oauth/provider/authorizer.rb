@@ -2,6 +2,7 @@
 
 require 'uri'
 require 'erb'
+require 'pry'
 
 module OAuth
   module Provider
@@ -15,7 +16,7 @@ module OAuth
       end
 
       def app
-        @app ||= ::ClientApplication.find_by_key!(params[:client_id])
+        @app ||= ::ClientApplication.find_by!(key: params[:client_id])
       end
 
       def code
@@ -79,7 +80,7 @@ module OAuth
       protected
 
       def base_uri
-        app.callback_url
+        URI.parse(app.callback_url)
       end
     end
   end

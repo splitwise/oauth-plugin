@@ -4,7 +4,11 @@
 class ClientApplication
   attr_accessor :key
 
-  def self.find_by_key(key)
+  def self.find_by(key:)
+    ClientApplication.new(key)
+  end
+
+  def self.find_by!(key:)
     ClientApplication.new(key)
   end
 
@@ -18,6 +22,10 @@ class ClientApplication
 
   def secret
     'secret'
+  end
+
+  def callback_url
+    'http://mysite.com/callback'
   end
 end
 
