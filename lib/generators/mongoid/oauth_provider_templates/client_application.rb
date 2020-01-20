@@ -45,7 +45,7 @@ class ClientApplication
 
     value = signature.verify
     value
-  rescue OAuth::Signature::UnknownSignatureMethod => e
+  rescue OAuth::Signature::UnknownSignatureMethod => _e
     false
   end
 

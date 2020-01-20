@@ -34,13 +34,6 @@ Lint/UselessAccessModifier:
     - 'generators/oauth_provider/templates/controller.rb'
     - 'lib/generators/oauth_provider/templates/controller.rb'
 
-# Offense count: 4
-Lint/UselessAssignment:
-  Exclude:
-    - 'generators/oauth_provider/templates/client_application.rb'
-    - 'lib/generators/active_record/oauth_provider_templates/client_application.rb'
-    - 'lib/generators/mongoid/oauth_provider_templates/client_application.rb'
-
 # Offense count: 2
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
 Lint/Void:

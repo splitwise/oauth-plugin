@@ -30,7 +30,7 @@ class ClientApplication < ActiveRecord::Base
 
     value = signature.verify
     value
-  rescue OAuth::Signature::UnknownSignatureMethod => e
+  rescue OAuth::Signature::UnknownSignatureMethod => _e
     false
   end
 
