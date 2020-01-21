@@ -2,7 +2,6 @@
 
 require 'uri'
 require 'erb'
-require 'pry'
 
 module OAuth
   module Provider
