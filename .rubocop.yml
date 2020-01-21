@@ -5,3 +5,7 @@ require:
 
 Rails/HttpPositionalArguments:
   Enabled: false # we use rack-test methods
+
+Rails/ApplicationController:
+  Exclude:
+    - "spec/**/*.rb"

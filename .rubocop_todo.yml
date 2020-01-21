@@ -169,6 +169,7 @@ RSpec/FilePath:
     - 'lib/generators/rspec/templates/oauth_token_spec.rb'
     - 'spec/oauth/provider/authorizer_spec.rb'
     - 'spec/rack/oauth_filter_spec.rb'
+    - 'spec/oauth/controllers/provider_controller_spec.rb'
 
 # Offense count: 40
 # Cop supports --auto-correct.

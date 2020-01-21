@@ -41,6 +41,10 @@ class OauthToken
     end
   end
 
+  def self.create(*)
+    OauthToken.new('token')
+  end
+
   def initialize(token)
     @token = token
   end

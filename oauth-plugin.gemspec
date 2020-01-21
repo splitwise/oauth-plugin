@@ -6,7 +6,6 @@ require 'oauth-plugin/version'
 Gem::Specification.new do |s|
   s.name = 'oauth-plugin'
   s.version = Oauth::Plugin::VERSION
-
   if s.respond_to? :required_rubygems_version=
     s.required_rubygems_version = Gem::Requirement.new('> 1.3.1')
   end
@@ -35,6 +34,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop-rails', '~> 2.4.1'
   s.add_development_dependency 'rubocop-rspec', '~> 1.37.1'
 
+  s.add_dependency('actionpack', ['>= 4.0'])
   s.add_dependency 'multi_json'
   s.add_dependency('oauth', ['~> 0.5.0'])
   s.add_dependency('oauth2', '~> 1.1')
