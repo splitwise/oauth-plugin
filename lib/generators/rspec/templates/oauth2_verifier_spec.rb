@@ -8,33 +8,33 @@ describe Oauth2Verifier do
     @verifier = described_class.create client_application: client_applications(:one), user: users(:aaron), scope: 'bbbb aaaa'
   end
 
-  it 'should be valid' do
+  it 'is valid' do
     expect(@verifier).to be_valid
   end
 
-  it 'should have a code' do
+  it 'has a code' do
     @verifier.code.should_not be_nil
   end
 
-  it 'should not have a secret' do
+  it 'does not have a secret' do
     expect(@verifier.secret).to be_nil
   end
 
-  it 'should be authorized' do
+  it 'is authorized' do
     expect(@verifier).to be_authorized
   end
 
-  it 'should not be invalidated' do
+  it 'is not invalidated' do
     @verifier.should_not be_invalidated
   end
 
-  it 'should generate query string' do
+  it 'generates query string' do
     expect(@verifier.to_query).to eq("code=#{@verifier.code}")
     @verifier.state = 'bbbb aaaa'
     expect(@verifier.to_query).to eq("code=#{@verifier.code}&state=bbbb%20aaaa")
   end
 
-  it 'should properly exchange for token' do
+  it 'properly exchanges for token' do
     @token = @verifier.exchange!
     expect(@verifier).to be_invalidated
     @token.user.should == @verifier.user

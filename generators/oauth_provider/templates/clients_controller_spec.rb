@@ -21,17 +21,17 @@ describe OauthClientsController do
       get :index
     end
 
-    it 'should be successful' do
+    it 'is successful' do
       do_get
       expect(response).to be_success
     end
 
-    it 'should assign client_applications' do
+    it 'assigns client_applications' do
       do_get
       assigns[:client_applications].should == @client_applications
     end
 
-    it 'should render index template' do
+    it 'renders index template' do
       do_get
       expect(response).to render_template('index')
     end
@@ -42,17 +42,17 @@ describe OauthClientsController do
       get :show, id: '1'
     end
 
-    it 'should be successful' do
+    it 'is successful' do
       do_get
       expect(response).to be_success
     end
 
-    it 'should assign client_applications' do
+    it 'assigns client_applications' do
       do_get
       expect(assigns[:client_application]).to eq(current_client_application)
     end
 
-    it 'should render show template' do
+    it 'renders show template' do
       do_get
       expect(response).to render_template('show')
     end
@@ -63,17 +63,17 @@ describe OauthClientsController do
       get :new
     end
 
-    it 'should be successful' do
+    it 'is successful' do
       do_get
       expect(response).to be_success
     end
 
-    it 'should assign client_applications' do
+    it 'assigns client_applications' do
       do_get
       expect(assigns[:client_application].class).to eq(ClientApplication)
     end
 
-    it 'should render show template' do
+    it 'renders show template' do
       do_get
       expect(response).to render_template('new')
     end
@@ -84,17 +84,17 @@ describe OauthClientsController do
       get :edit, id: '1'
     end
 
-    it 'should be successful' do
+    it 'is successful' do
       do_get
       expect(response).to be_success
     end
 
-    it 'should assign client_applications' do
+    it 'assigns client_applications' do
       do_get
       expect(assigns[:client_application]).to eq(current_client_application)
     end
 
-    it 'should render edit template' do
+    it 'renders edit template' do
       do_get
       expect(response).to render_template('edit')
     end
@@ -110,13 +110,13 @@ describe OauthClientsController do
       post :create
     end
 
-    it 'should redirect to new client_application' do
+    it 'redirects to new client_application' do
       do_valid_post
       expect(response).to be_redirect
       expect(response).to redirect_to(action: 'show', id: @client_application.id)
     end
 
-    it 'should render show template' do
+    it 'renders show template' do
       do_invalid_post
       expect(response).to render_template('new')
     end
@@ -127,12 +127,12 @@ describe OauthClientsController do
       delete :destroy, id: '1'
     end
 
-    it 'should destroy client applications' do
+    it 'destroys client applications' do
       do_delete
       ClientApplication.should_not be_exists(1)
     end
 
-    it 'should redirect to list' do
+    it 'redirects to list' do
       do_delete
       expect(response).to be_redirect
       expect(response).to redirect_to(action: 'index')
@@ -148,18 +148,18 @@ describe OauthClientsController do
       put :update, :id => '1', 'client_application' => { 'name' => nil }
     end
 
-    it 'should redirect to show client_application' do
+    it 'redirects to show client_application' do
       do_valid_update
       expect(response).to be_redirect
       expect(response).to redirect_to(action: 'show', id: 1)
     end
 
-    it 'should assign client_applications' do
+    it 'assigns client_applications' do
       do_invalid_update
       expect(assigns[:client_application]).to eq(ClientApplication.find(1))
     end
 
-    it 'should render show template' do
+    it 'renders show template' do
       do_invalid_update
       expect(response).to render_template('edit')
     end
