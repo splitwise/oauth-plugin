@@ -134,26 +134,6 @@ RSpec/ExampleLength:
     - 'spec/oauth/provider/authorizer_spec.rb'
     - 'spec/rack/oauth_filter_spec.rb'
 
-# Offense count: 204
-# Cop supports --auto-correct.
-# Configuration parameters: CustomTransform, IgnoredWords.
-RSpec/ExampleWording:
-  Exclude:
-    - 'generators/oauth_provider/templates/client_application_spec.rb'
-    - 'generators/oauth_provider/templates/clients_controller_spec.rb'
-    - 'generators/oauth_provider/templates/oauth2_token_spec.rb'
-    - 'generators/oauth_provider/templates/oauth2_verifier_spec.rb'
-    - 'generators/oauth_provider/templates/oauth_nonce_spec.rb'
-    - 'generators/oauth_provider/templates/oauth_token_spec.rb'
-    - 'lib/generators/rspec/templates/client_application_spec.rb'
-    - 'lib/generators/rspec/templates/clients_controller_spec.rb'
-    - 'lib/generators/rspec/templates/oauth2_token_spec.rb'
-    - 'lib/generators/rspec/templates/oauth2_verifier_spec.rb'
-    - 'lib/generators/rspec/templates/oauth_nonce_spec.rb'
-    - 'lib/generators/rspec/templates/oauth_token_spec.rb'
-    - 'spec/oauth/provider/authorizer_spec.rb'
-    - 'spec/rack/oauth_filter_spec.rb'
-
 # Offense count: 2
 RSpec/ExpectInHook:
   Exclude:

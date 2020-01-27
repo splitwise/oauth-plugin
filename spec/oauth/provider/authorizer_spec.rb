@@ -17,7 +17,7 @@ describe OAuth::Provider::Authorizer do
         allow(@app).to receive(:callback_url).and_return('http://mysite.com/callback')
       end
 
-      it 'should allow' do
+      it 'allows' do
         expect(::Oauth2Verifier).to receive(:create!).with(client_application: @app,
                                                            user: @user,
                                                            callback_url: 'http://mysite.com/callback',
@@ -32,7 +32,7 @@ describe OAuth::Provider::Authorizer do
         expect(@authorizer).to be_authorized
       end
 
-      it 'should include state' do
+      it 'includes state' do
         expect(::Oauth2Verifier).to receive(:create!).with(client_application: @app,
                                                            user: @user,
                                                            callback_url: 'http://mysite.com/callback',
@@ -48,7 +48,7 @@ describe OAuth::Provider::Authorizer do
         expect(@authorizer).to be_authorized
       end
 
-      it 'should allow query string in callback' do
+      it 'allows query string in callback' do
         expect(::Oauth2Verifier).to receive(:create!).with(client_application: @app,
                                                            user: @user,
                                                            callback_url: 'http://mysite.com/callback?this=one',
@@ -66,7 +66,7 @@ describe OAuth::Provider::Authorizer do
   end
 
   describe 'user does not authorize' do
-    it 'should send error' do
+    it 'sends error' do
       @authorizer = described_class.new @user, false, response_type: 'code',
                                                       scope: 'a b',
                                                       client_id: 'client id',
@@ -76,7 +76,7 @@ describe OAuth::Provider::Authorizer do
       expect(@authorizer).not_to be_authorized
     end
 
-    it 'should send error with state and query params in callback' do
+    it 'sends error with state and query params in callback' do
       app = instance_double('ClientApplication')
       allow(::ClientApplication).to receive(:find_by!).and_return(app)
       allow(app).to receive(:callback_url).and_return('http://mysite.com/callback?this=one')
@@ -103,7 +103,7 @@ describe OAuth::Provider::Authorizer do
         allow(@app).to receive(:callback_url).and_return('http://mysite.com/callback')
       end
 
-      it 'should allow' do
+      it 'allows' do
         expect(::Oauth2Token).to receive(:create!).with(client_application: @app,
                                                         user: @user,
                                                         callback_url: 'http://mysite.com/callback',
@@ -118,7 +118,7 @@ describe OAuth::Provider::Authorizer do
         expect(@authorizer).to be_authorized
       end
 
-      it 'should include state' do
+      it 'includes state' do
         expect(::Oauth2Token).to receive(:create!).with(client_application: @app,
                                                         user: @user,
                                                         callback_url: 'http://mysite.com/callback',
@@ -134,7 +134,7 @@ describe OAuth::Provider::Authorizer do
         expect(@authorizer).to be_authorized
       end
 
-      it 'should allow query string in callback' do
+      it 'allows query string in callback' do
         allow(@app).to receive(:callback_url).and_return('http://mysite.com/callback?this=one')
 
         expect(::Oauth2Token).to receive(:create!).with(client_application: @app,
@@ -153,7 +153,7 @@ describe OAuth::Provider::Authorizer do
   end
 
   describe 'user does not authorize' do
-    it 'should send error' do
+    it 'sends error' do
       @authorizer = described_class.new @user, false, response_type: 'token',
                                                       scope: 'a b',
                                                       client_id: 'client id',
@@ -163,7 +163,7 @@ describe OAuth::Provider::Authorizer do
       expect(@authorizer).not_to be_authorized
     end
 
-    it 'should send error with state and query params in callback' do
+    it 'sends error with state and query params in callback' do
       app = instance_double('ClientApplication')
       allow(::ClientApplication).to receive(:find_by!).and_return(app)
       allow(app).to receive(:callback_url).and_return('http://mysite.com/callback?this=one')
@@ -179,7 +179,7 @@ describe OAuth::Provider::Authorizer do
     end
   end
 
-  it 'should handle unsupported response type' do
+  it 'handles unsupported response type' do
     @user = double('user')
 
     @authorizer = described_class.new @user, false, response_type: 'my new',

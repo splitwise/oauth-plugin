@@ -31,7 +31,7 @@ describe OAuth::Rack::OAuthFilter do
     @app ||= OAuth::Rack::OAuthFilter.new(OAuthEcho.new)
   end
 
-  it 'should pass through without oauth' do
+  it 'passes through without oauth' do
     get '/'
     expect(last_response).to be_ok
     response = MultiJson.decode(last_response.body)
@@ -40,14 +40,14 @@ describe OAuth::Rack::OAuthFilter do
 
   describe 'OAuth1' do
     describe 'with optional white space' do
-      it 'should sign with consumer' do
+      it 'signs with consumer' do
         get '/', {}, 'HTTP_AUTHORIZATION' => 'OAuth oauth_consumer_key="my_consumer", oauth_nonce="amrLDyFE2AMztx5fOYDD1OEqWps6Mc2mAR5qyO44Rj8", oauth_signature="KCSg0RUfVFUcyhrgJo580H8ey0c%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1295039581", oauth_version="1.0"'
         expect(last_response).to be_ok
         response = MultiJson.decode(last_response.body)
         expect(response).to eq('client_application' => 'my_consumer', 'oauth_version' => 1, 'strategies' => ['two_legged'])
       end
 
-      it 'should sign with oauth 1 access token' do
+      it 'signs with oauth 1 access token' do
         client_application = ClientApplication.new 'my_consumer'
         allow(ClientApplication).to receive(:find_by).and_return(client_application)
         allow(client_application.tokens).to receive(:where).and_return([AccessToken.new('my_token')])
@@ -57,7 +57,7 @@ describe OAuth::Rack::OAuthFilter do
         expect(response).to eq('client_application' => 'my_consumer', 'oauth_token' => 'my_token', 'oauth_version' => 1, 'strategies' => %w[oauth10_token token oauth10_access_token])
       end
 
-      it 'should sign with oauth 1 request token' do
+      it 'signs with oauth 1 request token' do
         client_application = ClientApplication.new 'my_consumer'
         allow(ClientApplication).to receive(:find_by).and_return(client_application)
         allow(client_application.tokens).to receive(:where).and_return([RequestToken.new('my_token')])
@@ -69,14 +69,14 @@ describe OAuth::Rack::OAuthFilter do
     end
 
     describe 'without optional white space' do
-      it 'should sign with consumer' do
+      it 'signs with consumer' do
         get '/', {}, 'HTTP_AUTHORIZATION' => 'OAuth oauth_consumer_key="my_consumer",oauth_nonce="amrLDyFE2AMztx5fOYDD1OEqWps6Mc2mAR5qyO44Rj8",oauth_signature="KCSg0RUfVFUcyhrgJo580H8ey0c%3D",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1295039581",oauth_version="1.0"'
         expect(last_response).to be_ok
         response = MultiJson.decode(last_response.body)
         expect(response).to eq('client_application' => 'my_consumer', 'oauth_version' => 1, 'strategies' => ['two_legged'])
       end
 
-      it 'should sign with oauth 1 access token' do
+      it 'signs with oauth 1 access token' do
         client_application = ClientApplication.new 'my_consumer'
         allow(ClientApplication).to receive(:find_by).and_return(client_application)
         allow(client_application.tokens).to receive(:where).and_return([AccessToken.new('my_token')])
@@ -86,7 +86,7 @@ describe OAuth::Rack::OAuthFilter do
         expect(response).to eq('client_application' => 'my_consumer', 'oauth_token' => 'my_token', 'oauth_version' => 1, 'strategies' => %w[oauth10_token token oauth10_access_token])
       end
 
-      it 'should sign with oauth 1 request token' do
+      it 'signs with oauth 1 request token' do
         client_application = ClientApplication.new 'my_consumer'
         allow(ClientApplication).to receive(:find_by).and_return(client_application)
         allow(client_application.tokens).to receive(:where).and_return([RequestToken.new('my_token')])
