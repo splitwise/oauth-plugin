@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop-rails', '~> 2.4.1'
   s.add_development_dependency 'rubocop-rspec', '~> 1.37.1'
 
-  s.add_dependency('actionpack', ['>= 4.0'])
+  s.add_dependency('actionpack', ['>= 4.2'])
   s.add_dependency 'multi_json'
   s.add_dependency('oauth', ['~> 0.5.0'])
   s.add_dependency('oauth2', '~> 1.1')
