@@ -53,7 +53,7 @@ module OAuth
       end
 
       def test_request
-        render body: params.collect { |k, v| "#{k}=#{v}" }.join('&')
+        render body: params.to_unsafe_h.to_query
       end
 
       def authorize

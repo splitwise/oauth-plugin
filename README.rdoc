@@ -1,6 +1,6 @@
 = OAuth Plugin
 
-This is a plugin for implementing OAuth Providers and Consumers in Rails applications.
+This is a plugin for implementing OAuth Providers and Consumers in Rails applications. It works on Rails 4.2.0 and above.
 
 We support the revised OAuth 1.0a specs at:
 
@@ -88,9 +88,9 @@ You need to install the oauth gem (0.4.4) which is the core OAuth ruby library. 
 
   gem install oauth
 
-== Installation (Rails 3.0)
+== Installation (Rails 4.2+)
 
-Add the plugin to your Gemfile:
+Add the plugin to your Gemfile and install it:
 
   gem "oauth-plugin", "~> 0.4.0"
 
@@ -113,15 +113,7 @@ Alternatively you can install it in vendors/plugin:
 
   script/plugin install git://github.com/pelle/oauth-plugin.git
 
-The Generator currently creates code (in particular views) that only work in Rails 2 and 3.
-
-It should not be difficult to manually modify the code to work on Rails 1.2.x
-
-I think the only real issue is that the views have .html.erb extensions. So these could theoretically just be renamed to .rhtml.
-
-Please let me know if this works and I will see if I can make the generator conditionally create .rhtml for pre 2.0 versions of RAILS.
-
-== OAuth Provider generator (Rails 3)
+== OAuth Provider generator (Rails 4.2+)
 
 This currently supports rspec, test_unit, haml, erb, active_record and mongoid:
 
@@ -129,7 +121,7 @@ This currently supports rspec, test_unit, haml, erb, active_record and mongoid:
 
 This generates OAuth and OAuth client controllers as well as the required models.
 
-It requires an authentication framework such as acts_as_authenticated, restful_authentication or restful_open_id_authentication. It also requires Rails 2.0.
+It requires an authentication framework such as acts_as_authenticated, restful_authentication or restful_open_id_authentication. It also requires Rails 4.2+.
 
 === INSTALL RACK FILTER (NEW)
 
@@ -154,9 +146,9 @@ The generator supports the defaults you have created in your application.rb file
 Add the following lines to your user model:
 
   has_many :client_applications
-  has_many :tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
+  has_many :tokens, class_name: 'OauthToken', order: 'authorized_at desc', include: [:client_application]
 
-== OAuth Provider generator (Rails 2)
+== OAuth Provider generator (Rails 4.2+)
 
 While it isn't very flexible at the moment there is an oauth_provider generator which you can use like this:
 
@@ -172,21 +164,6 @@ A big change over previous versions is that we now use a rack filter. You have t
 
   require 'oauth/rack/oauth_filter'
   config.middleware.use OAuth::Rack::OAuthFilter
-
-=== Generator Options
-
-By default the generator generates RSpec and ERB templates. The generator can instead create Test::Unit and/or HAML templates. To do this use the following options:
-
-  ./script/generate oauth_provider --test-unit --haml
-
-These can of course be used individually as well.
-
-=== User Model
-
-Add the following lines to your user model:
-
-  has_many :client_applications
-  has_many :tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
 
 === Migrate database
 
@@ -517,13 +494,6 @@ The database is defined in:
 Run them as any other normal migration in rails with:
 
   rake db:migrate
-
-== Contribute and earn OAuth Karma
-
-Anyone who has a commit accepted into the official oauth-plugin git repo is awarded OAuthKarma:
-
-https://picomoney.com/oauth-karma/accounts
-
 
 == More
 
